@@ -1,0 +1,133 @@
+body, html {
+    margin: 0; padding: 0; overflow: hidden;
+    background-color: #1a1a2e;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    color: #e0e0e0; user-select: none;
+}
+#game-container { display: flex; width: 100vw; height: 100vh; }
+#gameCanvas { background-color: #0f0f1b; cursor: pointer; }
+#ui-panel {
+    width: 280px; background-color: #16213e; padding: 20px;
+    box-sizing: border-box; display: flex; flex-direction: column;
+    gap: 20px; overflow-y: auto; border-left: 3px solid #0f3460;
+}
+.ui-box { background-color: rgba(31, 64, 104, 0.5); padding: 15px; border-radius: 8px; border: 1px solid #1f4068;}
+h2 { color: #e94560; margin-top: 0; border-bottom: 2px solid #e94560; padding-bottom: 5px; margin-bottom: 10px; }
+p { font-size: 1.1em; margin: 8px 0; }
+span { color: #f6e58d; font-weight: bold; }
+button {
+    background-color: #1f4068; color: #fff; border: none; padding: 12px 15px; width: 100%;
+    border-radius: 5px; font-size: 1em; font-weight: bold; cursor: pointer; transition: background-color 0.2s, transform 0.1s;
+}
+/* Adicione ou modifique estes estilos no seu css/style.css */
+
+#build-panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas de botões */
+    gap: 10px;
+}
+
+button.build-button {
+    background-color: #1f4068;
+    border: 2px solid #3f6c9b;
+    height: 80px; /* Altura fixa para os botões de ícone */
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em; /* Fonte menor para o nome/custo */
+    text-align: center;
+    position: relative;
+}
+
+button.build-button img {
+    width: 40px; /* Tamanho do ícone */
+    height: 40px;
+    margin-bottom: 5px;
+}
+
+button.build-button .cost {
+    font-weight: bold;
+    color: #f6e58d;
+}
+
+/* Remove o padding padrão do botão quando tem imagem */
+ button.build-button:not(:empty){
+     padding: 5px;
+ }
+button:hover { background-color: #3f6c9b; }
+button:active { transform: scale(0.98); }
+button.build-button.selected { background-color: #ff9f1c; box-shadow: 0 0 10px #ff9f1c; }
+#start-wave-btn { background-color: #55E6C1; color: #1a1a2e; margin-top: auto; }
+#start-wave-btn:disabled { background-color: #666; cursor: not-allowed; }
+#upgrade-panel button { margin-top: 10px; }
+#sell-btn { background-color: #e43f5a; }
+#upgrade-panel { transition: all 0.3s; }
+/* css/style.css */
+
+/* (Estilos existentes) */
+
+/* Estilos para os Modais de Ranking e Pontuação */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+.modal-content {
+    background-color: #16213e;
+    padding: 30px;
+    border-radius: 10px;
+    border: 2px solid #e94560;
+    text-align: center;
+    min-width: 350px;
+}
+.modal-content h2 {
+    font-size: 2em;
+}
+.modal-content input {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 20px 0;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid #3f6c9b;
+    background-color: #0f0f1b;
+    color: #e0e0e0;
+    font-size: 1.1em;
+}
+.modal-content #ranking-list {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    max-height: 400px;
+    overflow-y: auto;
+}
+.modal-content #ranking-list li {
+    background-color: rgba(31, 64, 104, 0.5);
+    padding: 10px 15px;
+    margin-bottom: 8px;
+    border-radius: 5px;
+    font-size: 1.2em;
+    display: flex;
+    justify-content: space-between;
+}
+.modal-content #ranking-list li span {
+    font-weight: normal;
+    color: #e0e0e0;
+}
+.modal-content #ranking-list li .score {
+    color: #f6e58d;
+    font-weight: bold;
+}
+
+#show-ranking-btn {
+    background-color: #00d4ff;
+    color: #1a1a2e;
+}

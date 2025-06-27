@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Tower Defense Co-op</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- ======================= LOBBY ======================= -->
+    <!-- Este container fica visível por padrão e ocupa a tela inteira. -->
+    <div id="lobby-container" class="modal-overlay" style="display: flex;">
+        <div class="modal-content">
+            <h2>Super Tower Defense Co-op</h2>
+            <button id="create-game-btn">Criar Novo Jogo</button>
+            <hr style="margin: 20px 0; border-color: #3f6c9b; border-style: solid;">
+            <input type="text" id="join-code-input" placeholder="Código da Sala" maxlength="5" style="text-transform:uppercase">
+            <button id="join-game-btn">Entrar em Jogo</button>
+        </div>
+    </div>
+
+    <!-- ======================= JOGO ======================= -->
+    <!-- Este container fica escondido por padrão. O JS vai exibi-lo. -->
+    <div id="game-container" style="display: none;">
+        <canvas id="gameCanvas"></canvas>
+        <div id="ui-panel">
+            <div class="ui-box">
+                <h2>Status da Partida</h2>
+                <p>Código da Sala: <strong id="room-code-display" style="color: #00d4ff;">...</strong></p>
+                <p>🌊 Onda: <span id="wave">0</span></p>
+                <hr>
+                <!-- STATUS DO JOGADOR 1 (Sempre visível, se ajusta) -->
+                <div id="player1-stats">
+                    <h3>Jogador 1</h3>
+                    <p>❤️ Vidas: <span id="lives">20</span></p>
+                    <p>💰 Dinheiro: <span id="money">500</span></p>
+                </div>
+                 <!-- STATUS DO JOGADOR 2 (Fica escondido até o P2 entrar) -->
+                 <div id="player2-stats" style="display: none;">
+                    <hr>
+                    <h3>Jogador 2</h3>
+                    <!-- p2-lives não é usado, pois as vidas são compartilhadas -->
+                    <p>💰 Dinheiro: <span id="p2-money">500</span></p>
+                </div>
+            </div>
+            
+            <div class="ui-box" id="build-panel">
+                <h2>Construir</h2>
+            </div>
+            
+            <div class="ui-box" id="upgrade-panel" style="display: none;">
+                 <!-- Conteúdo gerado por JS -->
+            </div>
+
+            <button id="start-wave-btn">Iniciar Onda</button>
+            <!-- O botão de ranking ainda pode ficar aqui se você quiser -->
+            <!-- <button id="show-ranking-btn">Ver Ranking</button> -->
+        </div>
+
+        <!-- Modais de fim de jogo e ranking (não mais usados ativamente, mas podem ficar) -->
+    </div>
+
+    <!-- SCRIPTS EXTERNOS E DE INICIALIZAÇÃO -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/coop-manager.js"></script> <!-- Agora ele encontrará os botões do lobby -->
+    
+    <!-- SCRIPTS DO JOGO -->
+    <script src="js/tower.js"></script>
+    <script src="js/projectile.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
