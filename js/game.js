@@ -13,7 +13,7 @@ class Game {
 
         // Estado do jogo
         this.lives = 20;
-        this.money = 65000000000000; // Dinheiro inicial ajustado para o custo do Sniper
+        this.money = 650; // Dinheiro inicial ajustado para o custo do Sniper
         this.wave = 0;
         this.score = 0;
         this.enemies = [];
