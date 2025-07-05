@@ -32,9 +32,9 @@ const TOWER_DATA = {
         name: 'Banco', cost: 400, color: '#fca311',
         base: { income: 2, range: 0 },
         levels: {
-            path1: { name: "Invest. Seguro", upgrades: [{cost:350, income:6, description:"Ações Blue Chip"}, {cost:700, income:15, description:"Títulos do Governo"}, {cost:2000, income:20, description:"Banco Central"}]},
+            path1: { name: "Invest. Seguro", upgrades: [{cost:350, income:2, description:"Ações Blue Chip"}, {cost:700, income:6, description:"Títulos do Governo"}, {cost:2000, income:10, description:"Banco Central"}]},
             path2: { name: "Alto Risco", upgrades: [{cost:500, interestRate:0.1, description:"Juros 10%/onda"}, {cost:1500, interestRate:0.15, description:"Mercado Ações 15%"}, {cost:4000, interestRate:0.2, description:"Wall Street 20%"}]},
-            path3: { name: "Super-Carga", upgrades: [{cost:20000, ability:"INVESTMENT_SYNDICATE", description:"Sindicato: Gera +$2500 ao final de cada onda"}]}
+            path3: { name: "Super-Carga", upgrades: [{cost:25000, ability:"INVESTMENT_SYNDICATE", description:"Sindicato: Gera +$2500 ao final de cada onda"}]}
         }
     },
     laser: {
@@ -275,7 +275,7 @@ class InterestBank extends Tower {
             if (this.incomeCooldown <= 0) {
                 this.game.money += this.income;
                 this.game.particles.push(new MoneyParticle(this.game, this.x, this.y-20, `+$${this.income}`));
-                this.incomeCooldown = 1000;
+                this.incomeCooldown = 5000;
             }
         }
     }
