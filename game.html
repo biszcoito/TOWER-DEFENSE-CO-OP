@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Tower Defense</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div id="loader-overlay" class="modal-overlay" style="display: flex;"><div class="loader"></div></div>
+    <div id="game-container" style="display: none;">
+        <div id="top-bar">
+            <div id="user-info"><span id="user-display-name"></span><button id="logout-btn">Sair</button></div>
+            <div id="game-actions">
+                <div class="dropdown-container">
+                    <button id="theme-menu-btn">Aparência</button>
+                    <div id="theme-menu" class="dropdown-menu">
+                        <div class="theme-buttons">
+                            <button data-theme-value="dark">Escuro</button>
+                            <button data-theme-value="light">Claro</button>
+                        </div>
+                        <label for="brightness-slider">Brilho</label>
+                        <input type="range" id="brightness-slider" min="80" max="120" value="100">
+                    </div>
+                </div>
+                <button id="credits-btn">Créditos</button>
+            </div>
+        </div>
+        <div class="game-area">
+            <canvas id="gameCanvas"></canvas>
+            <div id="ui-panel">
+                <div class="ui-box"><h2>Status</h2><p>❤️ Vidas: <span id="lives">20</span></p><p>💰 Dinheiro: <span id="money">650</span></p><p>🌊 Onda: <span id="wave">0</span></p><div class="stat-item"><h3>PONTOS</h3><span id="score">0</span></div></div>
+                <div class="ui-box" id="build-panel-container"><h2 id="build-title">Construir</h2><div id="build-panel"></div></div>
+                <div id="upgrade-panel" class="ui-box" style="display: none;">
+                    <h3 id="upgrade-title">Nome da Torre</h3><div id="upgrade-level">Nível: 0-0</div>
+                    <div id="upgrade-paths-container">
+                        <div class="upgrade-path"><h4 id="upgrade-path1-name">Caminho 1</h4><button id="upgrade-path1-btn"></button></div>
+                        <div class="upgrade-path"><h4 id="upgrade-path2-name">Caminho 2</h4><button id="upgrade-path2-btn"></button></div>
+                    </div>
+                    <div id="upgrade-path3-container">
+                        <h4 id="upgrade-path3-name">Super-Carga</h4><button id="upgrade-path3-btn"></button>
+                    </div>
+                    <button id="sell-btn">Vender por $0</button>
+                </div>
+                <button id="start-wave-btn">Iniciar Onda</button><button id="show-ranking-btn">Ver Ranking</button>
+            </div>
+        </div>
+    </div>
+    <div id="score-modal" class="modal-overlay"><div class="modal-content"><h2>Fim de Jogo!</h2><p>Pontuação: <span id="final-score">0</span></p><button id="close-score-btn">Ok</button></div></div>
+    <div id="ranking-modal" class="modal-overlay"><div class="modal-content"><h2>Ranking</h2><ol id="ranking-list"></ol><div id="my-ranking-display" style="display:none"><h3>Sua Posição</h3><p id="my-rank-text"></p></div><button id="close-ranking-btn">Fechar</button></div></div>
+    <div id="credits-modal" class="modal-overlay"><div class="modal-content"><h2>Créditos</h2><p>Desenvolvido com carinho.</p><button id="close-credits-btn">Fechar</button></div></div>
+    
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/projectile.js"></script><script src="js/enemy.js"></script><script src="js/tower.js"></script>
+    <script src="js/ui.js"></script><script src="js/game.js"></script><script src="js/game-init.js"></script>
+</body>
+</html>
