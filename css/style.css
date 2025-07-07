@@ -111,6 +111,9 @@ input[type="range"] { width: 100%; }
     background-color: rgba(11, 10, 24, 0.8); backdrop-filter: blur(5px);
     display: none; justify-content: center; align-items: center; z-index: 1000;
 }
+#pessoas_credito{
+    text-align: left;
+}
 #loader-overlay, #auth-container { display: flex; }
 #auth-container { background-color: var(--theme-bg-primary); backdrop-filter: none; }
 .modal-content {

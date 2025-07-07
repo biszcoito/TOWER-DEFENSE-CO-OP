@@ -14,8 +14,8 @@ const ENEMY_DATA = {
               dashSpeed: 8, dashDuration: 200, stunDuration: 1000,
               description: "CENTÍPEDE: Corpo segmentado. Cada segmento destruído causa um avanço rápido e uma breve parada." },
     
-    nemesis:  { health:10000, speed:0.8, bounty:250,color:'#231942', isBoss: true,
-              disableAuraRadius: 180, disableDuration: 3000, 
+    nemesis:  { health:25000, speed:0.8, bounty:250,color:'#231942', isBoss: true,
+              disableAuraRadius: 250, disableDuration: 3000, 
               description: "NÊMESIS: CHEFE. Sua aura maléfica desativa torres próximas temporariamente." },
 };
 const WAVE_DATA = [

@@ -30,6 +30,10 @@ class UI {
             upgradePath2Btn: document.getElementById('upgrade-path2-btn'),
             upgradePath3Btn: document.getElementById('upgrade-path3-btn'),
             sellBtn: document.getElementById('sell-btn'),
+
+             upgradePath1Name: document.getElementById('upgrade-path1-name'), 
+            upgradePath2Name: document.getElementById('upgrade-path2-name'),
+            upgradePath3Name: document.getElementById('upgrade-path3-name'),
             
             // Modais e seus Botões
             scoreModal: document.getElementById('score-modal'),
