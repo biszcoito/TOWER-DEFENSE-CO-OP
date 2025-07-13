@@ -9,7 +9,7 @@ class Game {
         // Propriedades do jogo
         this.lastTime = 0;
         this.TOWER_DATA = TOWER_DATA; this.ENEMY_DATA = ENEMY_DATA; this.WAVE_DATA = WAVE_DATA;
-        this.lives = 20; this.money = 6500000000000; this.wave = 0; this.score = 0;
+        this.lives = 20; this.money = 650; this.wave = 0; this.score = 0;
         this.enemies = []; this.towers = []; this.projectiles = []; this.particles = [];
         this.gameIsOver = false; this.waveInProgress = false;
         this.selectedTowerToBuild = null; this.mousePos = { x: 0, y: 0 };
