@@ -1,42 +1,48 @@
 // js/game-init.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-
     const loader = document.getElementById('loader-overlay');
-    const gameContainer = document.getElementById('game-container');
-    const authContainer = document.querySelector('#auth-container'); // Presente no index.html
+    
+    console.log("[game-init] Script iniciado.");
+    const loggedInPlayerId = localStorage.getItem('loggedInPlayer');
 
-    // Se estivermos na página de login, o container do jogo não existe.
-    if (!gameContainer) {
+    if (!loggedInPlayerId) {
+        console.error("[game-init] Sessão não encontrada, redirecionando para login.");
+        window.location.replace('index.html');
         return;
     }
 
-    // A página do jogo SEMPRE começa com o loader visível
-    loader.style.display = 'flex';
-    gameContainer.style.display = 'none';
-
-    auth.onAuthStateChanged(user => {
-        if (user && user.uid) {
-            // USUÁRIO ESTÁ LOGADO
+    console.log(`[game-init] ID do jogador encontrado: ${loggedInPlayerId}`);
+    
+    db.collection('players').doc(loggedInPlayerId).get().then(doc => {
+        if (doc.exists) {
+            console.log("[game-init] Documento do jogador encontrado. Preparando para iniciar o jogo.");
+            const playerData = doc.data();
+            const userProfile = { uid: doc.id, ...playerData };
             
-            // Inicializa o jogo se ainda não foi inicializado
             if (!window.game) {
                 const canvas = document.getElementById('gameCanvas');
-                // Passa o objeto 'user' e 'db' para o jogo, como o construtor espera
-                window.game = new Game(canvas, user, db);
+                // Apenas CRIA a instância, não a inicia
+                window.game = new Game(canvas, userProfile, db);
             }
             
-            // Esconde o loader e mostra o container do jogo
+            // Mostra a tela do jogo
             loader.style.display = 'none';
-            gameContainer.style.display = 'flex';
+            document.getElementById('game-container').style.display = 'flex';
+
+            // Garante que o layout da página esteja pronto e então chama nosso novo método `init`
+            requestAnimationFrame(() => {
+                window.game.init(); 
+            });
 
         } else {
-            // USUÁRIO NÃO ESTÁ LOGADO
-            // Se o usuário não está autenticado, ele não deveria estar em game.html.
-            // Redireciona para a página de login.
+            console.error(`[game-init] Documento para o ID '${loggedInPlayerId}' não encontrado.`);
+            alert("Não foi possível encontrar os dados da sua conta. Sua sessão será limpa.");
+            localStorage.removeItem('loggedInPlayer');
             window.location.replace('index.html');
         }
+    }).catch(error => {
+        console.error("[game-init] O bloco .catch() foi acionado:", error);
+        alert("Ocorreu um erro ao carregar o jogo. Verifique o console.");
+        window.location.replace('main-menu.html');
     });
 });

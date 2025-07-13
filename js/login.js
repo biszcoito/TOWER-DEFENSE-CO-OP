@@ -1,98 +1,65 @@
 // js/login.js
-
 document.addEventListener('DOMContentLoaded', () => {
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    // Usando o sistema original de login com Firestore e localStorage
+
+    const loggedInPlayerId = localStorage.getItem('loggedInPlayer');
+    if (loggedInPlayerId) {
+        console.log("Sessão local encontrada. Redirecionando para o menu...");
+        window.location.replace('main-menu.html');
+        return;
+    }
 
     const elements = {
-        title: document.getElementById('auth-title'),
-        error: document.getElementById('auth-error'),
-        displayNameInput: document.getElementById('auth-display-name'),
-        emailInput: document.getElementById('auth-email'),
-        passwordInput: document.getElementById('auth-password'),
-        submitBtn: document.getElementById('auth-submit-btn'),
+        title: document.getElementById('auth-title'), error: document.getElementById('auth-error'),
+        displayNameInput: document.getElementById('auth-display-name'), emailInput: document.getElementById('auth-email'),
+        passwordInput: document.getElementById('auth-password'), submitBtn: document.getElementById('auth-submit-btn'),
         toggleText: document.getElementById('auth-toggle-text'),
-        toggleLink: document.getElementById('auth-toggle-link'),
     };
-
+    
     let isLoginMode = true;
 
-    // Redireciona para o jogo se o usuário já estiver logado
-    auth.onAuthStateChanged(user => {
-        if (user) {
-            window.location.href = 'game.html';
-        }
-    });
-
-    const setErrorMessage = (message) => {
-        elements.error.textContent = message;
-    };
+    const setErrorMessage = message => { elements.error.textContent = message; };
 
     const toggleMode = (e) => {
-        if (e) e.preventDefault();
-        isLoginMode = !isLoginMode;
-        setErrorMessage('');
-        
-        if (isLoginMode) {
-            elements.title.textContent = 'Login';
-            elements.submitBtn.textContent = 'Entrar';
-            elements.displayNameInput.style.display = 'none';
-            elements.toggleText.innerHTML = 'Não tem uma conta? <a href="#" id="auth-toggle-link">Cadastre-se</a>';
-        } else {
-            elements.title.textContent = 'Cadastro';
-            elements.submitBtn.textContent = 'Criar Conta';
-            elements.displayNameInput.style.display = 'block';
-            elements.toggleText.innerHTML = 'Já tem uma conta? <a href="#" id="auth-toggle-link">Faça Login</a>';
-        }
-        // É crucial readicionar o listener ao novo link criado
+        if (e) e.preventDefault(); isLoginMode = !isLoginMode; setErrorMessage('');
+        elements.title.textContent = isLoginMode ? 'Login' : 'Cadastro';
+        elements.submitBtn.textContent = isLoginMode ? 'Entrar' : 'Criar Conta';
+        elements.displayNameInput.style.display = isLoginMode ? 'none' : 'block';
+        elements.toggleText.innerHTML = isLoginMode ? 'Não tem uma conta? <a href="#" id="auth-toggle-link">Cadastre-se</a>' : 'Já tem uma conta? <a href="#" id="auth-toggle-link">Faça Login</a>';
         document.getElementById('auth-toggle-link').addEventListener('click', toggleMode);
     };
 
     const handleSubmit = () => {
-        const email = elements.emailInput.value.trim();
-        const password = elements.passwordInput.value;
-        const displayName = elements.displayNameInput.value.trim();
-        
+        const email = elements.emailInput.value.trim().toLowerCase();
+        const password = elements.passwordInput.value; const displayName = elements.displayNameInput.value.trim();
         setErrorMessage('');
-        
-        if (!email || !password) {
-            setErrorMessage("Por favor, preencha e-mail e senha.");
-            return;
-        }
-        
-        elements.submitBtn.disabled = true;
-        elements.submitBtn.textContent = 'Aguarde...';
-
-        const handleAuthError = (error) => {
-            let message = 'Ocorreu um erro. Tente novamente.';
-            switch (error.code) {
-                case 'auth/invalid-email': message = 'O formato do e-mail é inválido.'; break;
-                case 'auth/user-not-found': message = 'Nenhuma conta encontrada com este e-mail.'; break;
-                case 'auth/wrong-password': message = 'Senha incorreta. Tente novamente.'; break;
-                case 'auth/weak-password': message = 'A senha precisa ter pelo menos 6 caracteres.'; break;
-                case 'auth/email-already-in-use': message = 'Este e-mail já está cadastrado.'; break;
-            }
-            setErrorMessage(message);
-            elements.submitBtn.disabled = false;
-            elements.submitBtn.textContent = isLoginMode ? 'Entrar' : 'Criar Conta';
-        };
+        if (!email || !password) return setErrorMessage("Preencha e-mail e senha.");
+        elements.submitBtn.disabled = true; elements.submitBtn.textContent = 'Aguarde...';
 
         if (isLoginMode) {
-            auth.signInWithEmailAndPassword(email, password)
-                .catch(handleAuthError);
+            db.collection('players').where('email', '==', email).get()
+                .then(querySnapshot => {
+                    if (querySnapshot.empty) { setErrorMessage('E-mail não encontrado.'); throw new Error("Login failed"); }
+                    const userDoc = querySnapshot.docs[0]; const userData = userDoc.data();
+                    if (userData.password !== password) { setErrorMessage('Senha incorreta.'); throw new Error("Login failed"); }
+                    localStorage.setItem('loggedInPlayer', userDoc.id); // Salva o ID do documento
+                    window.location.replace('main-menu.html');
+                }).catch(() => { elements.submitBtn.disabled = false; elements.submitBtn.textContent = 'Entrar'; });
         } else {
-            if (!displayName) {
-                setErrorMessage("Por favor, preencha seu nome de jogador.");
-                elements.submitBtn.disabled = false;
-                elements.submitBtn.textContent = 'Criar Conta';
-                return;
-            }
-            auth.createUserWithEmailAndPassword(email, password)
-                .then(userCredential => userCredential.user.updateProfile({ displayName: displayName }))
-                .catch(handleAuthError);
+            if (!displayName) { setErrorMessage("Por favor, preencha o nome de jogador."); elements.submitBtn.disabled = false; elements.submitBtn.textContent = 'Criar Conta'; return; }
+            db.collection('players').where('email', '==', email).get()
+                .then(querySnapshot => {
+                    if (!querySnapshot.empty) { setErrorMessage('Este e-mail já está em uso.'); throw new Error("Register failed"); }
+                    return db.collection('players').add({
+                        name: displayName, email: email, password: password, crystals: 0, unlocked_upgrades: {}
+                    });
+                }).then(docRef => {
+                    localStorage.setItem('loggedInPlayer', docRef.id); // Salva o ID do novo documento
+                    window.location.replace('main-menu.html');
+                }).catch(() => { elements.submitBtn.disabled = false; elements.submitBtn.textContent = 'Criar Conta'; });
         }
     };
-
+    
     elements.submitBtn.addEventListener('click', handleSubmit);
-    elements.toggleLink.addEventListener('click', toggleMode);
+    document.getElementById('auth-toggle-link').addEventListener('click', toggleMode);
 });

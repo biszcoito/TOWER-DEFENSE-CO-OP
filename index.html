@@ -12,20 +12,23 @@
         <div class="modal-content">
             <h2 id="auth-title">Login</h2>
             <div id="auth-error" class="auth-error-message"></div>
-            <input type="text" id="auth-display-name" placeholder="Nome de Jogador (único)" style="display: none;" maxlength="15">
-            <input type="email" id="auth-email" placeholder="E-mail" autocomplete="email">
-            <input type="password" id="auth-password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password">
+            <div class="formulario">
+                <input type="text" id="auth-display-name" placeholder="Nome de Jogador (único)" style="display: none;" maxlength="15">
+                <p>E-mail:</p>
+                <input type="email" id="auth-email" placeholder="E-mail" autocomplete="email">
+                <p>Senha:</p>
+                <input type="password" id="auth-password" placeholder="Senha (mínimo 6 caracteres)" autocomplete="current-password">
+            </div>
             <button type="button" id="auth-submit-btn">Entrar</button>
             <p id="auth-toggle-text">Não tem uma conta? <a href="#" id="auth-toggle-link">Cadastre-se</a></p>
         </div>
     </div>
-
-    <!-- Scripts de Autenticação -->
-        <!-- Scripts de Autenticação -->
+    
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script> <!-- <<< ADICIONE ESTA LINHA AQUI -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="js/firebase-init.js"></script>
-    <script src="js/login.js"></script> <!-- ÚNICO SCRIPT DE LÓGICA AQUI -->
+    <!-- ★★★ CORREÇÃO APLICADA AQUI ★★★ -->
+    <script src="js/login.js"></script> 
 </body>
 </html>

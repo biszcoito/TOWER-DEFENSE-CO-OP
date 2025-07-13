@@ -1,6 +1,5 @@
 // js/firebase-init.js
 
-// Cole a configuração que o Firebase te deu aqui
 const firebaseConfig = {
   apiKey: "AIzaSyDDUBYUoNlE5YyqxxpjQlR82KhThCdyxxY",
   authDomain: "portifolio-6053a.firebaseapp.com",
@@ -11,8 +10,6 @@ const firebaseConfig = {
   measurementId: "G-GT60DHVRZW"
 };
 
-// Inicia o Firebase
 const app = firebase.initializeApp(firebaseConfig);
-
-// Inicia o Firestore e exporta para que outros arquivos possam usar
 const db = firebase.firestore();
+const auth = firebase.auth(); // Instância de autenticação global

@@ -1,0 +1,72 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Menu - Super Tower Defense</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+    </style>
+</head>
+<body>
+    <div id="loader-overlay" class="modal-overlay" style="display: flex;"><div class="loader"></div></div>
+    
+    <div id="main-menu-container" style="display:none;" class="main-menu-container">
+        <div class="top-bar-menu">
+            <span id="player-name">Carregando...</span>
+            <div>
+                <span id="player-crystals">0</span> 💎
+                <button id="logout-btn-menu">Sair</button>
+            </div>
+        </div>
+        
+        <!-- Abas de Navegação -->
+        <div class="view-toggle">
+            <button id="show-levels-btn" class="active">Fases</button>
+            <button id="show-store-btn">Loja</button>
+        </div>
+
+        <!-- Área de Conteúdo -->
+        <div id="content-area">
+            <!-- Container da Visão de Fases -->
+            <div id="levels-view" class="content-view active-view">
+                <h1>Seleção de Fases</h1>
+                <div class="level-selection">
+                    <div class="level-card" id="level1-btn">
+                        <h2>Caminho do Desfiladeiro</h2>
+                        <p>O clássico campo de batalha. Teste suas habilidades contra ondas equilibradas de inimigos.</p>
+                        <span class="play-button">Jogar Agora</span>
+                    </div>
+                    <div class="level-card locked">
+                        <h2>Avanço no Ártico</h2>
+                        <p>Inimigos com escudos aprimorados em um cenário congelante.</p>
+                        <span>Em Breve</span>
+                    </div>
+                     <div class="level-card locked">
+                        <h2>Cidade Futurista</h2>
+                        <p>Inimigos com tecnologia avançada e teletransporte.</p>
+                        <span>Em Breve</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Container da Visão da Loja -->
+            <div id="store-view" class="content-view">
+                <h1>Loja de Melhorias</h1>
+                <p>Use seus cristais 💎 para desbloquear permanentemente níveis de upgrade para suas torres.</p>
+                <div id="store-grid">
+                    <!-- Gerado via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="js/firebase-init.js"></script>
+    <script src="js/tower.js"></script>
+    <!-- ★★★ CORREÇÃO APLICADA AQUI ★★★ -->
+    <script src="js/main-menu.js"></script>
+</body>
+</html>

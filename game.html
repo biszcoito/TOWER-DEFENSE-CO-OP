@@ -32,17 +32,7 @@
             <div id="ui-panel">
                 <div class="ui-box"><h2>Status</h2><p>❤️ Vidas: <span id="lives">20</span></p><p>💰 Dinheiro: <span id="money">650</span></p><p>🌊 Onda: <span id="wave">0</span></p><div class="stat-item"><h3>PONTOS</h3><span id="score">0</span></div></div>
                 <div class="ui-box" id="build-panel-container"><h2 id="build-title">Construir</h2><div id="build-panel"></div></div>
-                <div id="upgrade-panel" class="ui-box" style="display: none;">
-                    <h3 id="upgrade-title">Nome da Torre</h3><div id="upgrade-level">Nível: 0-0</div>
-                    <div id="upgrade-paths-container">
-                        <div class="upgrade-path"><h4 id="upgrade-path1-name">Caminho 1</h4><button id="upgrade-path1-btn"></button></div>
-                        <div class="upgrade-path"><h4 id="upgrade-path2-name">Caminho 2</h4><button id="upgrade-path2-btn"></button></div>
-                    </div>
-                    <div id="upgrade-path3-container">
-                        <h4 id="upgrade-path3-name">Super-Carga</h4><button id="upgrade-path3-btn"></button>
-                    </div>
-                    <button id="sell-btn">Vender por $0</button>
-                </div>
+                <!-- ★★★ CORREÇÃO APLICADA AQUI: O painel de upgrade incorreto foi removido daqui. A nova estrutura correta está no final do <body> ★★★ -->
                 <button id="start-wave-btn">Iniciar Onda</button><button id="show-ranking-btn">Ver Ranking</button>
             </div>
         </div>
@@ -68,12 +58,36 @@
     <button id="close-credits-btn">Fechar</button>
     </div>
     </div>
+
+    <!-- ★★★ CORREÇÃO APLICADA AQUI: Nova estrutura de pop-up que funciona com ui.js e style.css ★★★ -->
+    <div id="tower-popup-menu">
+        <div class="popup-header">
+            <h3 id="popup-title">Nome da Torre</h3>
+            <span id="popup-level">Nível: 0-0</span>
+        </div>
+        <div class="popup-paths-container">
+            <div class="popup-path">
+                <button id="popup-path1-btn"></button>
+            </div>
+            <div class="popup-path">
+                <button id="popup-path2-btn"></button>
+            </div>
+            <div id="popup-path3-container" style="display: none;">
+                 <div class="popup-path"><button id="popup-path3-btn"></button></div>
+            </div>
+        </div>
+        <button id="popup-sell-btn">Vender por $0</button>
+    </div>
     
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
     <script src="js/firebase-init.js"></script>
-    <script src="js/projectile.js"></script><script src="js/enemy.js"></script><script src="js/tower.js"></script>
-    <script src="js/ui.js"></script><script src="js/game.js"></script><script src="js/game-init.js"></script>
+    <script src="js/projectile.js"></script>
+    <script src="js/enemy.js"></script>
+    <script src="js/tower.js"></script>
+    <script src="js/game.js"></script> <!-- DEFINIÇÃO DA CLASSE -->
+    <script src="js/ui.js"></script>   <!-- DEFINIÇÃO DA CLASSE -->
+    <script src="js/game-init.js"></script> 
 </body>
 </html>
