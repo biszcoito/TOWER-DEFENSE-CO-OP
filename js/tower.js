@@ -51,7 +51,7 @@ const TOWER_DATA = {
         name: 'Amplificador', cost: 300, color: '#9d4edd',
         base: { range: 100, boost: 0.15 }, // Aumenta dano em 15%
         levels: {
-            path1: { name: "Potência do Pulso", upgrades: [{cost:250, boost:0.5, description:"Aumento de 5%"}, {cost:700, boost:0.20, description:"Aumento de 20%"}, {cost:3500, boost:0.50, description:"Aumento de 50%"}]},
+            path1: { name: "Potência do Pulso", upgrades: [{cost:250, boost:0.05, description:"Aumento de 5%"}, {cost:700, boost:0.20, description:"Aumento de 20%"}, {cost:3500, boost:0.50, description:"Aumento de 50%"}]},
             path2: { name: "Área de Efeito", upgrades: [{cost:200, range:125, description:"Alcance +25%"}, {cost:500, range:150, description:"Alcance +50%"}, {cost:1500, range:180, description:"Alcance Global (Afeta todas as torres)"}]},
             path3: { name: "Super-Carga", upgrades: [{cost:5000, ability:"OVERCLOCK", description:"Overclock: Fornece +50% de cadência de tiro às torres no alcance"}]}
         }

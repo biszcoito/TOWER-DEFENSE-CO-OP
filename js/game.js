@@ -6,7 +6,7 @@ class Game {
         this.currentUser = user; 
         this.db = db;
         
-        // Propriedades do jogo
+        // Propriedades do jogo...
         this.lastTime = 0;
         this.TOWER_DATA = TOWER_DATA; this.ENEMY_DATA = ENEMY_DATA; this.WAVE_DATA = WAVE_DATA;
         this.lives = 20; this.money = 650; this.wave = 0; this.score = 0;
@@ -16,45 +16,59 @@ class Game {
         this.isMouseOnPath = false;
         this.path = [];
         
-        // A UI é criada no construtor
+        // Cria a instância da UI, mas ela ainda está "desligada".
         this.ui = new UI(this);
         
         this.animationFrameId = null;
     }
 
-    // Método de inicialização que controla quando o jogo realmente começa
     init() {
-        console.log("[Game] O método init() foi chamado. Configurando listeners e iniciando o loop.");
-        // Adiciona os event listeners
-        window.addEventListener('resize', () => this.resizeCanvas());
+        console.log("[Game] Iniciando Jogo...");
+        
+        // Agora que temos certeza que 'this.currentUser' existe, iniciamos a UI.
+        this.ui.init();
+        
+        // Listener de Debounce para responsividade
+        let resizeTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(() => this.resizeCanvas(), 250);
+        });
+
         this.canvas.addEventListener('click', this.handleCanvasClick.bind(this));
         this.canvas.addEventListener('mousemove', this.handleMouseMove.bind(this));
         
-        // Calcula o path com base no tamanho da tela
         this.resizeCanvas();
-        
-        // Inicia o loop de renderização/jogo
         this.gameLoop = this.gameLoop.bind(this);
-        this.gameLoop(0); 
+        this.gameLoop(0);
+        console.log("[Game] Jogo iniciado com sucesso.");
     }
     
     // O método start() é removido, pois sua lógica agora está no init().
     // O resto da classe (resizeCanvas, gameLoop, draw, etc.) permanece o mesmo.
 
     resizeCanvas() {
-        const uiPanelWidth = 280;
-        this.canvas.width = document.body.clientWidth - uiPanelWidth;
-        this.canvas.height = document.body.clientHeight;
-        const w = this.canvas.width;
-        const h = this.canvas.height;
-        const topOffset = 50;
-        this.path = [
-            { x: -50, y: topOffset + (h - topOffset) * 0.15 }, { x: w * 0.2, y: topOffset + (h - topOffset) * 0.15 },
-            { x: w * 0.2, y: topOffset + (h - topOffset) * 0.85 }, { x: w * 0.8, y: topOffset + (h - topOffset) * 0.85 },
-            { x: w * 0.8, y: topOffset + (h - topOffset) * 0.15 }, { x: w * 0.5, y: topOffset + (h - topOffset) * 0.15 },
-            { x: w * 0.5, y: topOffset + (h - topOffset) * 0.5 }, { x: w + 50, y: topOffset + (h - topOffset) * 0.5 },
-        ];
+    const uiPanelWidth = 280;
+    this.canvas.width = document.body.clientWidth - uiPanelWidth;
+    this.canvas.height = document.body.clientHeight;
+    const w = this.canvas.width;
+    const h = this.canvas.height;
+    const topOffset = 50;
+
+    // Recalcula o path dos inimigos (isso já estava correto)
+    this.path = [
+        { x: -50, y: topOffset + (h - topOffset) * 0.15 }, { x: w * 0.2, y: topOffset + (h - topOffset) * 0.15 },
+        { x: w * 0.2, y: topOffset + (h - topOffset) * 0.85 }, { x: w * 0.8, y: topOffset + (h - topOffset) * 0.85 },
+        { x: w * 0.8, y: topOffset + (h - topOffset) * 0.15 }, { x: w * 0.5, y: topOffset + (h - topOffset) * 0.15 },
+        { x: w * 0.5, y: topOffset + (h - topOffset) * 0.5 }, { x: w + 50, y: topOffset + (h - topOffset) * 0.5 },
+    ];
+
+    // ★★★ NOVO CÓDIGO PARA RESPONSIVIDADE ★★★
+    // Percorre todas as torres existentes e manda elas recalcularem suas posições
+    for (const tower of this.towers) {
+        tower.recalculatePosition();
     }
+}
 
     isTooCloseToPath(x, y) {
         const minDistance = 45; 

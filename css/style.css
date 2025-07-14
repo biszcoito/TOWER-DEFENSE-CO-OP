@@ -248,3 +248,58 @@ input[type=text], input[type=email], input[type=password] {
 }
 .theme-buttons { display: flex; gap: 10px; }
 .theme-buttons button { flex: 1; }
+/* css/style.css */
+
+/* ★★★ NOVO: ESTILOS PARA O BLOQUEADOR DE ORIENTAÇÃO ★★★ */
+
+#orientation-blocker {
+    /* Por padrão, fica escondido em telas de computador e no modo paisagem */
+    display: none; 
+}
+
+/* 
+  Esta 'media query' é a chave!
+  Ela aplica os estilos seguintes APENAS quando a altura da tela é maior que a largura
+  (ou seja, modo retrato / vertical).
+*/
+@media only screen and (orientation: portrait) {
+    #orientation-blocker {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--theme-bg-primary);
+        color: var(--theme-text-primary);
+        z-index: 9999; /* Garante que fique acima de tudo */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .orientation-content {
+        padding: 20px;
+    }
+    
+    .orientation-content h1 {
+        color: var(--theme-text-accent);
+        margin-top: 1em;
+    }
+
+    /* Animação sutil para o ícone */
+    .orientation-content svg {
+        animation: rotate-animation 2s ease-in-out infinite;
+    }
+
+    @keyframes rotate-animation {
+        0% { transform: rotate(0deg); }
+        50% { transform: rotate(-90deg); }
+        100% { transform: rotate(-90deg); }
+    }
+
+    /* Esconde o jogo real enquanto a tela de bloqueio está ativa */
+    body > *:not(#orientation-blocker) {
+        display: none !important;
+    }
+}

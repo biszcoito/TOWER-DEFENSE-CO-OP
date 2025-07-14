@@ -1,9 +1,10 @@
+// js/ui.js
 class UI {
     constructor(game) {
         this.game = game;
         this.selectedTower = null;
 
-        // Mapeamento dos elementos (sem alterações na estrutura)
+        // Apenas mapeia os elementos. Nenhuma outra ação aqui.
         this.elements = {
             userDisplayName: document.getElementById('user-display-name'), logoutBtn: document.getElementById('logout-btn'),
             themeMenuBtn: document.getElementById('theme-menu-btn'), themeMenu: document.getElementById('theme-menu'),
@@ -21,10 +22,19 @@ class UI {
             myRankingDisplay: document.getElementById('my-ranking-display'), myRankText: document.getElementById('my-rank-text'),
             creditsModal: document.getElementById('credits-modal'), closeCreditsBtn: document.getElementById('close-credits-btn'),
         };
-        this.init();
+
+        // A linha 'this.init()' foi removida daqui.
     }
 
-    init() { this.addEventListeners(); this.applySavedSettings(); this.createBuildButtons(); this.update(); }
+    // O método init agora é o verdadeiro "ponto de partida" para a UI
+    init() { 
+        console.log("[UI] Iniciando UI...");
+        this.addEventListeners(); 
+        this.applySavedSettings(); 
+        this.createBuildButtons(); 
+        this.update(); 
+        console.log("[UI] UI iniciada com sucesso.");
+    }
     
     addEventListeners() {
         // Listeners da UI principal (sem alterações)

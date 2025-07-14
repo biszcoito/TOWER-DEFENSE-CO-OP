@@ -10,39 +10,36 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.replace('index.html');
         return;
     }
-
-    console.log(`[game-init] ID do jogador encontrado: ${loggedInPlayerId}`);
     
     db.collection('players').doc(loggedInPlayerId).get().then(doc => {
         if (doc.exists) {
-            console.log("[game-init] Documento do jogador encontrado. Preparando para iniciar o jogo.");
             const playerData = doc.data();
             const userProfile = { uid: doc.id, ...playerData };
             
+            // 1. Cria a instância do Jogo (e da UI), mas não inicia nada.
             if (!window.game) {
                 const canvas = document.getElementById('gameCanvas');
-                // Apenas CRIA a instância, não a inicia
                 window.game = new Game(canvas, userProfile, db);
             }
             
-            // Mostra a tela do jogo
+            // 2. Torna o jogo visível
             loader.style.display = 'none';
             document.getElementById('game-container').style.display = 'flex';
 
-            // Garante que o layout da página esteja pronto e então chama nosso novo método `init`
+            // 3. Pede ao navegador para chamar 'game.init()' no momento perfeito para renderização
             requestAnimationFrame(() => {
-                window.game.init(); 
+                window.game.init();
             });
 
         } else {
-            console.error(`[game-init] Documento para o ID '${loggedInPlayerId}' não encontrado.`);
-            alert("Não foi possível encontrar os dados da sua conta. Sua sessão será limpa.");
+            console.error(`[game-init] Documento do jogador com ID '${loggedInPlayerId}' não encontrado.`);
+            alert("Sua conta não foi encontrada no servidor.");
             localStorage.removeItem('loggedInPlayer');
             window.location.replace('index.html');
         }
     }).catch(error => {
-        console.error("[game-init] O bloco .catch() foi acionado:", error);
-        alert("Ocorreu um erro ao carregar o jogo. Verifique o console.");
+        console.error("[game-init] Falha crítica ao buscar dados do jogador:", error);
+        alert("Falha na comunicação com o servidor ao carregar seus dados. Tente novamente.");
         window.location.replace('main-menu.html');
     });
 });
